@@ -79,7 +79,7 @@ use strict;
 use Storable   ();
 use IO::Scalar ();
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 our $DEPARSE;
 
 
