@@ -21,7 +21,7 @@ CGI::Capture - Highly detailed capture and replaying of CGI calls
   # Apply the CGI call to the current environment
   $second->apply;
 
-=head2 DESCRIPTION
+=head1 DESCRIPTION
 
 CGI does a terribly bad job of saving CGI calls. CGI::Capture tries to
 resolve this and save a CGI call in as much painstaking detail as it
@@ -79,7 +79,7 @@ use strict;
 use Storable   ();
 use IO::Scalar ();
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 our $DEPARSE;
 
 

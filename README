@@ -15,7 +15,7 @@ SYNOPSIS
       # Apply the CGI call to the current environment
       $second->apply;
 
-  DESCRIPTION
+DESCRIPTION
     CGI does a terribly bad job of saving CGI calls. CGI::Capture tries to
     resolve this and save a CGI call in as much painstaking detail as it
     possibly can.

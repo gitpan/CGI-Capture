@@ -1,5 +1,8 @@
 Revision history for Perl extension CGI::Capture
 
+0.03     Sun Dec 12 2004
+	- Fixed a documentation bug
+
 0.02     Fri Dec 10 2004
 	- Oops, left the warning in
 
