@@ -95,7 +95,7 @@ use strict;
 use Storable   ();
 use IO::Scalar ();
 
-our $VERSION = '0.00_01';
+our $VERSION = '0.01';
 our $DEPARSE;
 
 
@@ -320,13 +320,13 @@ sub apply {
 	$0 = $self->{PROGRAM_NAME};
 
 	# Check that the critical variables match
-	$self->check_var( OSNAME             => $^O       );
-	$self->check_var( REAL_USER_ID       => $<        );
-	$self->check_var( EFFECTIVE_USER_ID  => $>        );
-	$self->check_var( REAL_GROUP_ID      => $(        );
-	$self->check_var( EFFECTIVE_GROUP_ID => $)        );
-	$self->check_var( TAINT              => ${^TAINT} );
-	$self->check_var( PERL_VERSION       => $]        );
+	$self->_check( OSNAME             => $^O       );
+	$self->_check( REAL_USER_ID       => $<        );
+	$self->_check( EFFECTIVE_USER_ID  => $>        );
+	$self->_check( REAL_GROUP_ID      => $(        );
+	$self->_check( EFFECTIVE_GROUP_ID => $)        );
+	$self->_check( TAINT              => ${^TAINT} );
+	$self->_check( PERL_VERSION       => $]        );
 
 	1;
 }
