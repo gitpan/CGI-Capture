@@ -15,21 +15,6 @@ SYNOPSIS
       # Apply the CGI call to the current environment
       $second->apply;
 
-  WARNING
-    Although fully complete, due to the tricky nature of testing this
-    module, and due to a lack of testing time, this module has undergone
-    only minimal testing and may break without warning.
-
-    It is uploaded as a devel version only until I (or you) can finish
-    proper testing and confirm it is working as intended.
-
-    If you wish to try out this module, and it breaks, PLEASE submit bug
-    reports, comments and patches (if possible).
-
-    Thankyou
-
-    Adam Kennedy
-
   DESCRIPTION
     CGI does a terribly bad job of saving CGI calls. CGI::Capture tries to
     resolve this and save a CGI call in as much painstaking detail as it

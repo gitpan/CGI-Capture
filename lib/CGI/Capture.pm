@@ -21,22 +21,6 @@ CGI::Capture - Highly detailed capture and replaying of CGI calls
   # Apply the CGI call to the current environment
   $second->apply;
 
-=head2 WARNING
-
-Although fully complete, due to the tricky nature of testing this module,
-and due to a lack of testing time, this module has undergone only minimal
-testing and may break without warning.
-
-It is uploaded as a devel version only until I (or you) can finish proper
-testing and confirm it is working as intended.
-
-If you wish to try out this module, and it breaks, PLEASE submit bug
-reports, comments and patches (if possible).
-
-Thankyou
-
-Adam Kennedy
-
 =head2 DESCRIPTION
 
 CGI does a terribly bad job of saving CGI calls. CGI::Capture tries to
@@ -95,7 +79,7 @@ use strict;
 use Storable   ();
 use IO::Scalar ();
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 our $DEPARSE;
 
 
