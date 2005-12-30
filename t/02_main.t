@@ -1,17 +1,18 @@
 #!/usr/bin/perl -w
 
-# Main tests for CGI::Capture
+# Main tests for CGI::Capture.
+# There aren't many, but then CGI::Capture is so damned simple that
+# there's really not that much to test.
 
 use strict;
 use lib ();
-use UNIVERSAL 'isa';
 use File::Spec::Functions ':ALL';
 BEGIN {
 	$| = 1;
 	unless ( $ENV{HARNESS_ACTIVE} ) {
 		require FindBin;
 		chdir ($FindBin::Bin = $FindBin::Bin); # Avoid a warning
-		lib->import( catdir( updir(), updir(), 'modules') );
+		lib->import( catdir(updir(), 'lib') );
 	}
 }
 

@@ -1,17 +1,18 @@
-name: CGI-Capture
-version: 0.04
-abstract: Highly detailed capture and replaying of CGI calls
-author: Adam Kennedy<cpan@ali.as>
-license: perl
-distribution_type: module
+abstract: Meticulously thorough capture and replaying of CGI calls
+author: 'Adam Kennedy <cpan@ali.as>, L<http://ali.as/>'
 build_requires:
+  File::Spec: 0.80
   Test::More: 0.47
-  File::Spec: 0.82
-requires:
-  perl: 5.6.0
-  Storable: 2.11
-  IO::Scalar: 2.105
+distribution_type: module
+generated_by: Module::Install version 0.50
+license: perl
+name: CGI-Capture
 no_index:
   directory:
     - inc
-generated_by: Module::Install version 0.36
+    - t
+requires:
+  IO::Scalar: 2.105
+  Storable: 2.11
+  perl: 5.6.0
+version: 1.05

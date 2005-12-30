@@ -4,7 +4,7 @@ package CGI::Capture;
 
 =head1 NAME
 
-CGI::Capture - Highly detailed capture and replaying of CGI calls
+CGI::Capture - Meticulously thorough capture and replaying of CGI calls
 
 =head1 SYNOPSIS
 
@@ -23,25 +23,27 @@ CGI::Capture - Highly detailed capture and replaying of CGI calls
 
 =head1 DESCRIPTION
 
-CGI does a terribly bad job of saving CGI calls. CGI::Capture tries to
-resolve this and save a CGI call in as much painstaking detail as it
+L<CGI> does a terribly bad job of saving CGI calls. C<CGI::Capture> tries
+to resolve this and save a CGI call in as much painstaking detail as it
 possibly can.
 
-Because of this, CGI::Capture should work with server logins, cookies,
+Because of this, C<CGI::Capture> should work with server logins, cookies,
 file uploads, strange execution environments, special environment
 variables, the works.
 
 It does this by capturing a large amount of the perl environment
-BEFORE CGI.pm itself gets a chance to look at it, and restores it in
-the same way.
+BEFORE F<CGI.pm> itself gets a chance to look at it, and then restores
+it in the same way.
 
-So in essence, it grabs all of STDIN, %ENV, @INC, and anything else it
-can think of. The things it can't replicate, it records anyway so that
-later in the debugger it can ensure that the execution environment is
-as close as possible to what it captured.
+So in essence, it grabs all of C<STDIN>, C<%ENV>, C<@INC>, and anything
+else it can think of. The things it can't replicate, it records anyway
+so that later in the debugger it can ensure that the execution
+environment is as close as possible to what it captured (and bitch at
+you about anything you are doing wrong).
 
-This can help to resolve problems such as when a bug won't appear because
-you aren't debugging the script as the web user and in the same directory.
+This is a huge help when resolving problems such as when a bug won't
+appear because you aren't debugging the script as the web user and in
+the same directory.
 
 =head2 Using CGI::Capture
 
@@ -79,7 +81,7 @@ use strict;
 use Storable   ();
 use IO::Scalar ();
 
-our $VERSION = '0.04';
+our $VERSION = '1.05';
 our $DEPARSE;
 
 
@@ -355,14 +357,14 @@ For other issues, or commercial enhancement or support, contact the author.
 
 =head1 AUTHORS
 
-Adam Kennedy (Maintainer), L<http://ali.as/>, cpan@ali.as
+Adam Kennedy E<lt>cpan@ali.asE<gt>, L<http://ali.as/>
 
 Thank you to Phase N (L<http://phase-n.com/>) for permitting
 the open sourcing and release of this distribution.
 
 =head1 COPYRIGHT
 
-Copyright (c) 2004 Adam Kennedy. All rights reserved.
+Copyright (c) 2004-200 Adam Kennedy. All rights reserved.
 This program is free software; you can redistribute
 it and/or modify it under the same terms as Perl itself.
 

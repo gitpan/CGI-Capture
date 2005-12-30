@@ -1,5 +1,5 @@
 NAME
-    CGI::Capture - Highly detailed capture and replaying of CGI calls
+    CGI::Capture - Meticulously thorough capture and replaying of CGI calls
 
 SYNOPSIS
       # Capture the current CGI to a file, and replay it once created
@@ -16,26 +16,27 @@ SYNOPSIS
       $second->apply;
 
 DESCRIPTION
-    CGI does a terribly bad job of saving CGI calls. CGI::Capture tries to
+    CGI does a terribly bad job of saving CGI calls. "CGI::Capture" tries to
     resolve this and save a CGI call in as much painstaking detail as it
     possibly can.
 
-    Because of this, CGI::Capture should work with server logins, cookies,
+    Because of this, "CGI::Capture" should work with server logins, cookies,
     file uploads, strange execution environments, special environment
     variables, the works.
 
     It does this by capturing a large amount of the perl environment BEFORE
-    CGI.pm itself gets a chance to look at it, and restores it in the same
-    way.
+    CGI.pm itself gets a chance to look at it, and then restores it in the
+    same way.
 
-    So in essence, it grabs all of STDIN, %ENV, @INC, and anything else it
+    So in essence, it grabs all of "STDIN", %ENV, @INC, and anything else it
     can think of. The things it can't replicate, it records anyway so that
     later in the debugger it can ensure that the execution environment is as
-    close as possible to what it captured.
+    close as possible to what it captured (and bitch at you about anything
+    you are doing wrong).
 
-    This can help to resolve problems such as when a bug won't appear
-    because you aren't debugging the script as the web user and in the same
-    directory.
+    This is a huge help when resolving problems such as when a bug won't
+    appear because you aren't debugging the script as the web user and in
+    the same directory.
 
   Using CGI::Capture
     The brain-dead way is to use it as a pragma.
@@ -152,15 +153,15 @@ SUPPORT
     author.
 
 AUTHORS
-    Adam Kennedy (Maintainer), <http://ali.as/>, cpan@ali.as
+    Adam Kennedy <cpan@ali.as>, <http://ali.as/>
 
     Thank you to Phase N (<http://phase-n.com/>) for permitting the open
     sourcing and release of this distribution.
 
 COPYRIGHT
-    Copyright (c) 2004 Adam Kennedy. All rights reserved. This program is
-    free software; you can redistribute it and/or modify it under the same
-    terms as Perl itself.
+    Copyright (c) 2004-200 Adam Kennedy. All rights reserved. This program
+    is free software; you can redistribute it and/or modify it under the
+    same terms as Perl itself.
 
     The full text of the license can be found in the LICENSE file included
     with this module.
