@@ -1,18 +1,19 @@
-abstract: Meticulously thorough capture and replaying of CGI calls
-author: 'Adam Kennedy <cpan@ali.as>, L<http://ali.as/>'
-build_requires:
-  File::Spec: 0.80
-  Test::More: 0.47
-distribution_type: module
-generated_by: Module::Install version 0.50
-license: perl
-name: CGI-Capture
-no_index:
-  directory:
+
+no_index: 
+  directory: 
     - inc
     - t
-requires:
-  IO::Scalar: 2.105
-  Storable: 2.11
+generated_by: Module::Install version 0.62
+distribution_type: module
+version: 1.06
+name: CGI-Capture
+author: Adam Kennedy <cpan@ali.as>
+license: perl
+build_requires: 
+  Test::More: 0.47
+  File::Spec: 0.80
+requires: 
   perl: 5.6.0
-version: 1.05
+  IO::String: 1.07
+  Storable: 2.11
+abstract: Meticulously thorough capture and replaying of CGI calls
