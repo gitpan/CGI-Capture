@@ -88,7 +88,7 @@ METHODS
     file. Also dies if it finds a CODE reference in @INC and you have not
     enabled $CGI::Capture::Deparse.
 
-retrieve
+  retrieve
     The "retrieve" method is used identically to the Storable method of the
     same name, and wraps it.
 
@@ -98,6 +98,35 @@ retrieve
     enable $CGI::Capture::DEPARSE when loading the file.
 
     Returns a new CGI::Capture object, or dies on failure.
+
+  as_yaml
+    To allow for more portable storage and communication of the CGI
+    environment, the "as_yaml" method can be used to generate a YAML
+    document for the request (generated via YAML::Tiny).
+
+    Returns a YAML::Tiny object.
+
+  from_yaml
+    To allow for more portable storage and communication of the CGI
+    environment, the "from_yaml" method can be used to restore a
+    CGI::Capture object from a YAML::Tiny object.
+
+    Returns a new CGI::Capture object, or croaks if passed an invalid param.
+
+  as_yaml_string
+    To allow for more portable storage and communication of the CGI
+    environment, the "as_yaml_string" method can be used to generate a YAML
+    document for the request (generated via YAML::Tiny).
+
+    Returns a YAML document as a string.
+
+  from_yaml_string
+    To allow for more portable storage and communication of the CGI
+    environment, the "from_yaml_string" method can be used to restore a
+    CGI::Capture object from a string containing a YAML document.
+
+    Returns a new CGI::Capture object, or croaks if the YAML document is
+    invalid.
 
   capture
     Again, "capture" can be used either as an object or static methods
@@ -162,9 +191,10 @@ SEE ALSO
     <http://ali.as/>, CGI
 
 COPYRIGHT
-    Copyright (c) 2004 - 2006 Adam Kennedy. All rights reserved. This
-    program is free software; you can redistribute it and/or modify it under
-    the same terms as Perl itself.
+    Copyright 2004 - 2007 Adam Kennedy.
+
+    This program is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself.
 
     The full text of the license can be found in the LICENSE file included
     with this module.
