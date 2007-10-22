@@ -59,6 +59,25 @@ DESCRIPTION
     disable security for Storable by setting $CGI::Capture::DEPARSE to true,
     which will enable B::Deparse and Eval support for stored objects.
 
+  Hand-Crafting CGI Captures
+    In its default usage, CGI::Capture takes an all or nothing approach,
+    requiring you to capture absolutely every element of a CGI call.
+
+    Sometimes you want to be a little more targetted, and for these
+    situations an alternative methodology is provided.
+
+    The "as_yaml" and "from_yaml" methods allow you to store and retrieve a
+    CGI capture using YAML::Tiny instead of Storable.
+
+    Once you have stored the CGI capture as a YAML file, you can hand-edit
+    the capture file, removing any keys you will not want to be restored,
+    keeping only the useful parts.
+
+    For example, to create a test file upload or CGI request involving
+    cookies, you could discard everything except for the STDIN section of
+    the capture file, which will then allow you to reuse the capture on
+    other hosts, operating systems, and so on.
+
 METHODS
     In most cases, the above is all you probably need. However, if you want
     to get more fine-grained control, you can create and manipulate
@@ -182,7 +201,7 @@ SUPPORT
     author.
 
 AUTHORS
-    Adam Kennedy <cpan@ali.as>
+    Adam Kennedy <adamk@cpan.org>
 
     Thank you to Phase N (<http://phase-n.com/>) for permitting the open
     sourcing and release of this distribution.

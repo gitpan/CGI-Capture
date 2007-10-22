@@ -68,6 +68,26 @@ in your @INC path (such as with PAR files), you will need to disable
 security for Storable by setting $CGI::Capture::DEPARSE to true, which will
 enable B::Deparse and Eval support for stored objects.
 
+=head2 Hand-Crafting CGI Captures
+
+In its default usage, B<CGI::Capture> takes an all or nothing approach,
+requiring you to capture absolutely every element of a CGI call.
+
+Sometimes you want to be a little more targetted, and for these situations
+an alternative methodology is provided.
+
+The C<as_yaml> and C<from_yaml> methods allow you to store and retrieve a
+CGI capture using L<YAML::Tiny> instead of L<Storable>.
+
+Once you have stored the CGI capture as a YAML file, you can hand-edit the
+capture file, removing any keys you will not want to be restored, keeping
+only the useful parts.
+
+For example, to create a test file upload or CGI request involving
+cookies, you could discard everything except for the STDIN section of
+the capture file, which will then allow you to reuse the capture on
+other hosts, operating systems, and so on.
+
 =head1 METHODS
 
 In most cases, the above is all you probably need. However, if you want to
@@ -79,13 +99,14 @@ object directly.
 use 5.006;
 use strict;
 use Carp       ();
+use Config     ();
 use Storable   ();
 use IO::String ();
 use YAML::Tiny ();
 
 use vars qw{$VERSION $DEPARSE};
 BEGIN {
-	$VERSION = '1.08';
+	$VERSION = '1.10';
 }
 
 
@@ -245,8 +266,10 @@ sub from_yaml {
 	%$self = %{$yaml->[0]};
 
 	# Correct some nigglies
-	my $stdin = $self->{STDIN};
-	$self->{STDIN} = \$stdin;
+	if ( exists $self->{STDIN} ) {
+		my $stdin = $self->{STDIN};
+		$self->{STDIN} = \$stdin;
+	}
 
 	return $self;
 }
@@ -318,7 +341,10 @@ sub capture {
 	my $self = ref $_[0] ? shift : shift->new;
 
 	# Reset the object
-	%$self = ( CAPTURE_TIME => time );
+	%$self = (
+		CAPTURE_TIME    => time,
+		CAPTURE_VERSION => $VERSION,
+	);
 
 	# Capture the environment
 	$self->{ENV} = { %ENV };
@@ -326,11 +352,16 @@ sub capture {
 	# Grab ARGV just to be on the safe side
 	$self->{ARGV} = [ @ARGV ];
 
-	# Grab the contents of STDIN
-	$self->{STDIN} = do { local $/; my $tmp = <STDIN>; \$tmp };
+	if ( -t STDIN ) {
+		# Interactive mode
+		$self->{STDIN} = \'';
+	} else {
+		# Grab the contents of STDIN
+		$self->{STDIN} = do { local $/; my $tmp = <STDIN>; \$tmp };
 
-	# Having captured it, restore it
-	$self->_stdin( $self->{STDIN} );
+		# Having captured it, restore it
+		$self->_stdin( $self->{STDIN} );
+	}
 
 	# Grab the include path
 	$self->{INC} = [ @INC ];
@@ -346,6 +377,10 @@ sub capture {
 	$self->{OSNAME}             = $^O;
 	$self->{TAINT}              = ${^TAINT};
 	$self->{PERL_VERSION}       = $];
+
+	# Capture the most critical %Config values
+	$self->{CONFIG_PATH}        = $INC{'Config.pm'};
+	$self->{PERL_PATH}          = $Config::Config{perlpath};
 
 	$self;
 }
@@ -390,29 +425,44 @@ sub apply {
 	$self->{CAPTURE_TIME} or die "Cannot apply empty capture object";
 
 	# Update the environment
-	%ENV = %{$self->{ENV}};
+	if ( exists $self->{ENV} ) {
+		%ENV = %{$self->{ENV}};
+	}
 
 	# Set @ARGV
-	@ARGV = @{$self->{ARGV}};
+	if ( exists $self->{ARGV} ) {
+		@ARGV = @{$self->{ARGV}};
+	}
 
 	# Set STDIN
-	$self->_stdin( $self->{STDIN} );
+	if ( exists $self->{STDIN} ) {
+		$self->_stdin( $self->{STDIN} );
+	}
 
 	# Replace INC
-	@INC = @{$self->{INC}};
+	if ( exists $self->{INC} ) {
+		@INC = @{$self->{INC}};
+	}
 
 	# Replace the internal variables we are allowed to
-	$| = $self->{OUTPUT_AUTOFLUSH};
-	$0 = $self->{PROGRAM_NAME};
+	if ( exists $self->{OUTPUT_AUTOFLUSH} ) {
+		$| = $self->{OUTPUT_AUTOFLUSH};
+	}
+	if ( exists $self->{PROGRAM_NAME} ) {
+		$0 = $self->{PROGRAM_NAME};
+	}
 
-	# Check that the critical variables match
-	$self->_check( OSNAME             => $^O       );
-	$self->_check( REAL_USER_ID       => $<        );
-	$self->_check( EFFECTIVE_USER_ID  => $>        );
-	$self->_check( REAL_GROUP_ID      => $(        );
-	$self->_check( EFFECTIVE_GROUP_ID => $)        );
-	$self->_check( TAINT              => ${^TAINT} );
-	$self->_check( PERL_VERSION       => $]        );
+	# Check that the variables we can't control match
+	$self->_check( CAPTURE_VERSION    => $VERSION                  );
+	$self->_check( OSNAME             => $^O                       );
+	$self->_check( REAL_USER_ID       => $<                        );
+	$self->_check( EFFECTIVE_USER_ID  => $>                        );
+	$self->_check( REAL_GROUP_ID      => $(                        );
+	$self->_check( EFFECTIVE_GROUP_ID => $)                        );
+	$self->_check( TAINT              => ${^TAINT}                 );
+	$self->_check( PERL_VERSION       => $]                        );
+	$self->_check( CONFIG_PATH        => $INC{'Config.pm'}         );
+	$self->_check( PERL_PATH          => $Config::config{perlpath} );
 
 	1;
 }
@@ -421,7 +471,10 @@ sub apply {
 sub _check {
 	my $self  = shift;
 	my $name  = defined $_[0] ? shift : die "Var name not passed to ->_check";
-	exists $self->{$name} or die "Bad name passed to ->_check";
+	unless ( exists $self->{$name} ) {
+		# Not defined in the capture, nothing to check
+		return;
+	}
 	my $value = shift;
 	unless ( defined $self->{$name} or defined $value ) {
 		return 1;
@@ -457,7 +510,7 @@ For other issues, or commercial enhancement or support, contact the author.
 
 =head1 AUTHORS
 
-Adam Kennedy E<lt>cpan@ali.asE<gt>
+Adam Kennedy E<lt>adamk@cpan.orgE<gt>
 
 Thank you to Phase N (L<http://phase-n.com/>) for permitting
 the open sourcing and release of this distribution.
