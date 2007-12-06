@@ -1,12 +1,13 @@
 --- 
 abstract: Meticulously thorough capture and replaying of CGI calls
-author: Adam Kennedy <adamk@cpan.org>
+author: 
+  - Adam Kennedy <adamk@cpan.org>
 build_requires: 
   File::Spec: 0.80
   Test::More: 0.47
   Test::Script: 1.02
 distribution_type: module
-generated_by: Module::Install version 0.65
+generated_by: Module::Install version 0.68
 license: perl
 meta-spec: 
   url: http://module-build.sourceforge.net/META-spec-v1.3.html
@@ -20,6 +21,6 @@ requires:
   Carp: 0
   IO::String: 1.07
   Storable: 2.11
-  YAML::Tiny: 1.12
+  YAML::Tiny: 1.21
   perl: 5.6.0
-version: 1.10
+version: 1.11
