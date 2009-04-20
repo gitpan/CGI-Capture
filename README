@@ -4,15 +4,15 @@ NAME
 SYNOPSIS
       # Capture the current CGI to a file, and replay it once created
       use CGI::Capture 'fileupload.dat';
-  
-      # Create an object and capture the state
+      
+  # Create an object and capture the state
       my $Capture = CGI::Capture->new->capture;
-  
-      # Store it in a file and load it back in
+      
+  # Store it in a file and load it back in
       $Capture->store('somefile.dat');
       my $second = CGI::Capture->apply('somefile.dat');
-  
-      # Apply the CGI call to the current environment
+      
+  # Apply the CGI call to the current environment
       $second->apply;
 
 DESCRIPTION
@@ -203,14 +203,11 @@ SUPPORT
 AUTHORS
     Adam Kennedy <adamk@cpan.org>
 
-    Thank you to Phase N (<http://phase-n.com/>) for permitting the open
-    sourcing and release of this distribution.
-
 SEE ALSO
     <http://ali.as/>, CGI
 
 COPYRIGHT
-    Copyright 2004 - 2007 Adam Kennedy.
+    Copyright 2004 - 2009 Adam Kennedy.
 
     This program is free software; you can redistribute it and/or modify it
     under the same terms as Perl itself.

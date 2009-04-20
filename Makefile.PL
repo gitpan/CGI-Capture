@@ -1,15 +1,9 @@
-use strict;
-use inc::Module::Install;
+use inc::Module::Install::DSL 0.83;
 
-name           'CGI-Capture';
-all_from       'lib/CGI/Capture.pm';
-requires       'Carp'         => 0;
-requires       'Storable'     => '2.11';
-requires       'IO::String'   => '1.07';
-requires       'YAML::Tiny'   => '1.21';
-build_requires 'File::Spec'   => '0.80';
-build_requires 'Test::More'   => '0.47';
-build_requires 'Test::Script' => '1.02';
-install_script 'script/cgicapture';
-
-WriteAll;
+all_from       lib/CGI/Capture.pm
+requires       Storable     2.11
+requires       YAML::Tiny   1.21
+test_requires  File::Spec   0.80
+test_requires  Test::More   0.47
+test_requires  Test::Script 1.02
+install_script cgicapture
